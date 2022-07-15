@@ -3,7 +3,6 @@ public class Main {
 
     public static void main(String[] args) {
         Converter converterMonth = new Converter();
-        Converter converterYear = new Converter(); //объект создан, что бы наглядно было за какую часть работы отвечает
         System.out.println("Здравствуйте!" + "\n");
         Scanner scanner = new Scanner(System.in);
 
@@ -15,16 +14,16 @@ public class Main {
                converterMonth.converterMonth();
                break;
                 case 2 :
-                    converterYear.convYear();
+                    converterMonth.convYear();
                     break;
                     case 3 :
-                                converterYear.grandFinal();
+                        converterMonth.grandFinal();
                         break;
                             case 4 :
                                 converterMonth.monthDataPrint();
                                 break;
                                     case 5 :
-                                        converterYear.yearDataPrint();
+                                        converterMonth.yearDataPrint();
                                     break;
                             case 0 :{
                                 System.out.println("Программа завершена\n До свидания!");

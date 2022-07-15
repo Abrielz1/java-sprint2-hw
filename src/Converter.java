@@ -14,6 +14,7 @@ public class Converter {
         String content = readFileContentsOrNull("resources/y.2021.csv");
         String[] lines = content.split("\r?\n");
         year = new ArrayList<>();
+
         for (int i = 1; i < lines.length; i++) {
             String line = lines[i];
             String[] parts = line.split(",");
@@ -21,8 +22,7 @@ public class Converter {
             int amount = Integer.parseInt(parts[1]);
             boolean isExpense = Boolean.parseBoolean(parts[2]);
             year.add(new YearData(month, amount, isExpense));
-
-        }
+            }
         yearlyReport();
     }
 
@@ -158,6 +158,8 @@ public class Converter {
         }
         System.out.println("Ошибок нет" + "\n");
     }
+
+
 
     private String readFileContentsOrNull(String path)  {
         try {
