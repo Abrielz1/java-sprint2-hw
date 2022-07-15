@@ -48,7 +48,7 @@ public class Converter {
             int expensesYear= 0;
             for(YearData j : year) {
 
-                if(j.month.equals(i.month) && !j.isExpense) {
+                if(j.month.equals(i.month) && !j.isExpense) { //Здесь сравниваются 2 строки по-этому я затрудняюсь найти решение
                     incomeYear = j.amount;
                 } else if (j.month.equals(i.month) && j.isExpense) {
                     expensesYear = j.amount;
@@ -56,8 +56,8 @@ public class Converter {
             }
             countYear.add(new CountYear(incomeYear, expensesYear));
         }
-        for(int i = 0; i < countYear.size(); i++) {
-            if(i%1 == 0) countYear.remove(i);
+        for(int i = 0; i < countYear.size(); i++) { //Данный костыль выкидывает лишние строки, которые дублируются.
+            if(i%1 == 0) countYear.remove(i);   //оно работает.
         }
     }
 
@@ -92,20 +92,18 @@ public class Converter {
          String Profit = "";
          String Expense = "";
          for (MonthData  content  : monthToYearData.get(values)) {
-             if (content.isExpense | finExpense < tempExpense){
-                 //System.out.println(a + " True" + " не ложь (True), следовательно - расход," + " количество " +  content.quantity + "," + " стоимость " + content.sumOfOne); //отладка
+
+             if (content.isExpense) {
                  tempExpense = content.quantity * content.sumOfOne;
+             }  else { tempProfit = content.quantity * content.sumOfOne; }
+             if (finExpense < tempExpense) {
                  finExpense = tempExpense;
                  Expense = content.itemName;
-                 //System.out.println(content.quantity + " * " + content.sumOfOne + " = " + tempExpense); //отладка
-             }  if (!content.isExpense | (finProfit < tempProfit)) {
-                 //System.out.println(a + " False" + " ложь (False), следовательно - доход," + " количество " + content.quantity + "," + " стоимость " + content.sumOfOne);
-                 tempProfit = content.quantity * content.sumOfOne;
-                 //System.out.println(content.quantity + " * " + content.sumOfOne + "  =  " + tempProfit); //отладка
+             }
+             if (finProfit < tempProfit) {
                  finProfit = tempProfit;
                  Profit = content.itemName;
-                 //  System.out.println("Доход " + " finProfit " + finProfit + " tempProfit " + tempProfit + " Profit " + Profit);
-           }
+             }
         }
          System.out.println("Максимальные доходы за " + a + " месяц " + finProfit + " " + Profit);
          System.out.println("Максимальные расходы за " + a + " месяц " + finExpense+ " " + Expense);
@@ -125,11 +123,9 @@ public class Converter {
         System.out.println("Отчет за 2021 г.");
         for (YearData content : year) {
             if (content.isExpense){
-                //System.out.println("не ложь - расход " + content.amount);
                 expence = (content.amount);
                 sumExpense[a++] = expence;
             } else {
-                //System.out.println("ложь - доход " + content.amount);
                 profit = (content.amount);
                 sumProfit[b++] = profit;
             }
@@ -151,15 +147,16 @@ public class Converter {
     }
 
     void grandFinal() {
+        if(countMonth.isEmpty()) {
+            System.out.println("Данные отсутствуют");
+        } else System.out.println("Данные присутствуют");
         for(int i = 0; i < countMonth.size(); i++) {
-            if(countMonth.get(i).income != countMonth.get(i).income && countMonth.get(i).expenses != countMonth.get(i).expenses) {
+            if(countYear.get(i).income != countYear.get(i).income || countYear.get(i).expenses != countYear.get(i).expenses) {
                 System.out.println("В месяце " + (i+1) + " ошибка");
-            }
+            } else  System.out.println("Ошибок нет" + "\n");
         }
-        System.out.println("Ошибок нет" + "\n");
+
     }
-
-
 
     private String readFileContentsOrNull(String path)  {
         try {

@@ -5,7 +5,8 @@ public class Main {
         Converter converterMonth = new Converter();
         System.out.println("Здравствуйте!" + "\n");
         Scanner scanner = new Scanner(System.in);
-
+        converterMonth.convYear();
+converterMonth.converterMonth();
        while (true){
            Menu.startMenu();
             int command = scanner.nextInt();
