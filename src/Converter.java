@@ -159,10 +159,6 @@ public class Converter {
         System.out.println("Ошибок нет" + "\n");
     }
 
-    void somethingWierd(){
-        for (Integer values : monthToYearData.keySet()) {}
-    }
-
     private String readFileContentsOrNull(String path)  {
         try {
             return Files.readString(Path.of(path));
