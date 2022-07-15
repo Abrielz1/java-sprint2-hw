@@ -26,9 +26,6 @@ public class Main {
                                     case 5 :
                                         converterYear.yearDataPrint();
                                     break;
-                                   //     case 6 :
-                                    //        converterYear.somethingWierd();
-                                     //       break;
                             case 0 :{
                                 System.out.println("Программа завершена\n До свидания!");
                                 return;

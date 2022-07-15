@@ -160,30 +160,7 @@ public class Converter {
     }
 
     void somethingWierd(){
-        for (Integer values : monthToYearData.keySet()) {
-            int profit = 0;
-            int expense = 0;
-
-            for (MonthData  content  : monthToYearData.get(values)) {
-                int[] monthDepot= new int[6];
-                if(content.isExpense){
-                    for (int i = 0; i < 3; i++) {
-                        expense += content.quantity * content.sumOfOne;
-                        monthDepot[i] = expense;
-                        System.out.println(monthDepot[i]);
-                    }
-                } else {
-                    for (int j = 3; j < 6; j++) {
-                        profit += content.quantity * content.sumOfOne;
-                        monthDepot[j] = profit;
-                        //   System.out.println(monthDepot[j]);
-                    }
-                }
-                for (int k = 0; k < monthDepot.length; k++) {
-                    System.out.println(monthDepot[k]);
-                }
-            }
-        }
+        for (Integer values : monthToYearData.keySet()) {}
     }
 
     private String readFileContentsOrNull(String path)  {
