@@ -5,10 +5,10 @@ import java.util.*;
 
 public class Converter {
     HashMap<Integer, ArrayList<MonthData>>monthToYearData = new HashMap<>();
-    ArrayList<CountMonth> countMonth;
-    ArrayList<CountYear> countYear;
-    ArrayList<MonthData>months;
-    ArrayList<YearData> year;
+   // HashMap<Integer, ArrayList<CountYear>>yearCount =  new HashMap<>();
+    ArrayList<CountMonth> countMonth = new ArrayList<>();
+    ArrayList<CountYear> countYear = new ArrayList<>();
+    ArrayList<YearData> year = new ArrayList<>();
 
     void convYear() {
         String content = readFileContentsOrNull("resources/y.2021.csv");
@@ -24,6 +24,26 @@ public class Converter {
             year.add(new YearData(month, amount, isExpense));
             }
         yearlyReport();
+    }
+
+    public void converterMonth(){        // рубим месяцы на части...
+        ArrayList<MonthData>months;
+        for (int i = 1; i < 4; i++) {
+            String content = readFileContentsOrNull("resources/m.20210" + i + ".csv");
+            String[] lines = content.split("\r?\n");
+            months = new ArrayList<>();
+            for(int j = 1; j < lines.length; j++){
+                String line = lines[j];
+                String[] parts = line.split(",");
+                String itemName = parts[0];
+                boolean isExpense = Boolean.parseBoolean(parts[1]);
+                int quantity = Integer.parseInt(parts[2]);
+                int sumOfOne = Integer.parseInt(parts[3]);
+                MonthData monthData = new MonthData(itemName, isExpense, quantity, sumOfOne);
+                months.add(monthData);
+            }
+            monthToYearData.put(i, months);
+        }
     }
 
     void yearlyReport() {
@@ -58,26 +78,6 @@ public class Converter {
         }
         for(int i = 0; i < countYear.size(); i++) { //Данный костыль выкидывает лишние строки, которые дублируются.
             if(i%1 == 0) countYear.remove(i);   //оно работает.
-        }
-    }
-
-    public void converterMonth(){        // рубим месяцы на части...
-
-        for (int i = 1; i < 4; i++) {
-            String content = readFileContentsOrNull("resources/m.20210" + i + ".csv");
-            String[] lines = content.split("\r?\n");
-            months = new ArrayList<>();
-            for(int j = 1; j < lines.length; j++){
-                String line = lines[j];
-                String[] parts = line.split(",");
-                String itemName = parts[0];
-                boolean isExpense = Boolean.parseBoolean(parts[1]);
-                int quantity = Integer.parseInt(parts[2]);
-                int sumOfOne = Integer.parseInt(parts[3]);
-                MonthData monthData = new MonthData(itemName, isExpense, quantity, sumOfOne);
-                months.add(monthData);
-            }
-            monthToYearData.put(i, months);
         }
     }
 
@@ -151,12 +151,12 @@ public class Converter {
             System.out.println("Данные отсутствуют");
         } else System.out.println("Данные присутствуют");
         for(int i = 0; i < countMonth.size(); i++) {
-            if(countYear.get(i).income != countYear.get(i).income || countYear.get(i).expenses != countYear.get(i).expenses) {
+            if(countYear.get(i).income != countMonth.get(i).income || countYear.get(i).expenses != countMonth.get(i).expenses) {
                 System.out.println("В месяце " + (i+1) + " ошибка");
             } else  System.out.println("Ошибок нет" + "\n");
         }
 
-    }
+    } //надо доработать
 
     private String readFileContentsOrNull(String path)  {
         try {
