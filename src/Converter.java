@@ -6,8 +6,8 @@ import java.util.*;
 public class Converter {
     HashMap<Integer, ArrayList<MonthData>>monthToYearData = new HashMap<>();
    // HashMap<Integer, ArrayList<CountYear>>yearCount =  new HashMap<>();
-    ArrayList<CountMonth> countMonth = new ArrayList<>();
-    ArrayList<CountYear> countYear = new ArrayList<>();
+   // ArrayList<CountMonth> countMonth = new ArrayList<>();
+   // ArrayList<CountYear> countYear = new ArrayList<>();
     ArrayList<YearData> year = new ArrayList<>();
 
     void convYear() {
@@ -18,12 +18,12 @@ public class Converter {
         for (int i = 1; i < lines.length; i++) {
             String line = lines[i];
             String[] parts = line.split(",");
-            String month = (parts[0]);
+            int month = Integer.parseInt(parts[0]);
             int amount = Integer.parseInt(parts[1]);
             boolean isExpense = Boolean.parseBoolean(parts[2]);
             year.add(new YearData(month, amount, isExpense));
             }
-        yearlyReport();
+        grandFinal();
     }
 
     public void converterMonth(){        // рубим месяцы на части...
@@ -46,40 +46,72 @@ public class Converter {
         }
     }
 
-    void yearlyReport() {
+    void grandFinal() {
+        int[] monthStats;
+        ArrayList<int[]> profitAndExpense = new ArrayList<>();
+        for (Integer values : monthToYearData.keySet()) {
+            int profitAll = 0;
+            int expenseAll = 0;
+            for (MonthData  content  : monthToYearData.get(values)) {
+                if (content.isExpense) {
+                    expenseAll += content.quantity * content.sumOfOne;
+                } else profitAll += content.quantity * content.sumOfOne;
+            }
+            monthStats = new int[2];
+            monthStats[0] = expenseAll;
+            monthStats[1] = profitAll;
+            profitAndExpense.add(monthStats);
+        }
 
-        countMonth = new ArrayList<>();
-        for(Integer data : monthToYearData.keySet()) {
-            int incomeMonth = 0;
-            int expensesMonth = 0;
-            for(MonthData set : monthToYearData.get(data)) {
-                if (set.isExpense) {
-                    expensesMonth += set.quantity * set.sumOfOne;
+        for (YearData content : year)  {
+                if (content.isExpense) {
+                    if (content.month == 1) {
+                        int[] month = profitAndExpense.get(0);
+                        int januaryExpense = month[0];
+                        if (!(januaryExpense == content.amount)) {
+                            System.out.println("В отчетах за январь месяц допущена ошибка");
+                        }
+                    } else if (content.month == 2) {
+                        int[] month = profitAndExpense.get(1);
+                        int FebruaryExpense = month[0];
+                        if (!(FebruaryExpense == content.amount)) {
+                            System.out.println("В отчетах за февраль месяц допущена ошибка");
+                        }
+                    } else if (content.month == 3) {
+                        int[] month = profitAndExpense.get(2);
+                        int MarchExpense = month[0];
+                        if (!(MarchExpense == content.amount)) {
+                            System.out.println("В отчетах за март месяц допущена ошибка");
+                        }
+                    }
                 } else {
-                    incomeMonth += set.quantity * set.sumOfOne;
+                    if (content.month == 1) {
+                        int[] month = profitAndExpense.get(0);
+                        int januaryProfit = month[1];
+                        if (!(januaryProfit == content.amount)) {
+                            System.out.println("В отчетах за январь месяц допущена ошибка");
+                        }
+                    } else if (content.month == 2) {
+                        int[] month = profitAndExpense.get(1);
+                        int FebruaryProfit = month[1];
+                        if (!(FebruaryProfit == content.amount)) {
+                            System.out.println("В отчетах за февраль месяц допущена ошибка");
+                        }
+                    } else if (content.month == 3) {
+                        int[] month = profitAndExpense.get(2);
+                        int MarchProfit = month[1];
+                        if (!(MarchProfit == content.amount)) {
+                            System.out.println("В отчетах за март месяц допущена ошибка");
+                        }
+                    }
                 }
-            }
-            countMonth.add(new CountMonth(incomeMonth, expensesMonth));
-        }
-        countYear = new ArrayList<CountYear>();
-        for(YearData i : year) {
 
-            int incomeYear = 0;
-            int expensesYear= 0;
-            for(YearData j : year) {
-
-                if(j.month.equals(i.month) && !j.isExpense) { //Здесь сравниваются 2 строки по-этому я затрудняюсь найти решение
-                    incomeYear = j.amount;
-                } else if (j.month.equals(i.month) && j.isExpense) {
-                    expensesYear = j.amount;
-                }
-            }
-            countYear.add(new CountYear(incomeYear, expensesYear));
         }
-        for(int i = 0; i < countYear.size(); i++) { //Данный костыль выкидывает лишние строки, которые дублируются.
-            if(i%1 == 0) countYear.remove(i);   //оно работает.
-        }
+        System.out.println("Операция сверки завершина\n");
     }
+
+
+
 
     void monthDataPrint() {
   int a = 1; // стартовый месяц, итератор
@@ -146,7 +178,7 @@ public class Converter {
 
     }
 
-    void grandFinal() {
+ /*   void grandFinal() {
         if(countMonth.isEmpty()) {
             System.out.println("Данные отсутствуют");
         } else System.out.println("Данные присутствуют");
@@ -154,9 +186,9 @@ public class Converter {
             if(countYear.get(i).income != countMonth.get(i).income || countYear.get(i).expenses != countMonth.get(i).expenses) {
                 System.out.println("В месяце " + (i+1) + " ошибка");
             } else  System.out.println("Ошибок нет" + "\n");
-        }
+ }   } */
 
-    } //надо доработать
+     //надо доработать
 
     private String readFileContentsOrNull(String path)  {
         try {
