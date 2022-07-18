@@ -46,46 +46,6 @@ public class Converter {
         }
     }
 
-
-  /*  public void numTest(){
-        countMonth = new ArrayList<>();
-        for(Integer data : monthToYearData.keySet()) {
-            int incomeMonth = 0;
-            int expensesMonth = 0;
-            for(MonthData set : monthToYearData.get(data)) {
-                if (set.isExpense) {
-                    expensesMonth += set.quantity * set.sumOfOne;
-                } else {
-                    incomeMonth += set.quantity * set.sumOfOne;
-                }
-            }
-            countMonth.add(new CountMonth(incomeMonth, expensesMonth));
-        }
-        countYear = new ArrayList<CountYear>();
-        for(YearData i : year) {
-            int incomeYear = 0;
-            int expensesYear= 0;
-            for(YearData j : year) {
-
-                if(j.month.equals(i.month) && !j.isExpense) { //Здесь сравниваются 2 строки по-этому я затрудняюсь найти решение
-                    incomeYear = j.amount;
-                } else if (j.month.equals(i.month) && j.isExpense) {
-                    expensesYear = j.amount;
-                }
-            }
-            countYear.add(new CountYear(incomeYear, expensesYear));
-        }
-        for(int i = 0; i < countYear.size(); i++) { //Данный костыль выкидывает лишние строки, которые дублируются.
-            if(i%1 == 0) countYear.remove(i);   //оно работает.
-        }
-
-    }
-   */
-
-    void yearlyReport() {
-
-}
-
     void monthDataPrint() {
         int a = 1; // стартовый месяц, итератор
         for (Integer values : monthToYearData.keySet()) {
@@ -152,10 +112,10 @@ public class Converter {
     }
 
    void grandFinal() {
-       yearlyReport();
-       if (countYear.isEmpty()) {
+       if (year.isEmpty()||monthToYearData.isEmpty()) {
            System.out.println("Данные отсутствуют");
-       } else System.out.println("Данные присутствуют"); {
+       } else {
+           System.out.println("Данные присутствуют");
            int[] monthStats;
            ArrayList<int[]> profitAndExpense = new ArrayList<>();
            for (Integer values : monthToYearData.keySet()) {
